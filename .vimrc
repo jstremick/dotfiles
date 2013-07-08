@@ -68,21 +68,18 @@ set wildignore+=*.orig                           " Merge resolution files
 set rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim
 
 " set dark background and color scheme
+colorscheme molokai
 set background=dark
-colorscheme ir_black
+let g:rehash256 = 1
+let g:molokai_original = 1
 
 " set up some custom colors
 highlight clear SignColumn
 highlight VertSplit    ctermbg=236
 highlight ColorColumn  ctermbg=237
-highlight LineNr       ctermbg=236 ctermfg=240
-highlight CursorLineNr ctermbg=236 ctermfg=240
 highlight CursorLine   ctermbg=236
-highlight StatusLineNC ctermbg=238 ctermfg=5
-highlight StatusLine   ctermbg=240 ctermfg=12
 highlight IncSearch    ctermbg=0   ctermfg=3
 highlight Search       ctermbg=0   ctermfg=9
-highlight Visual       ctermbg=3   ctermfg=0
 highlight Pmenu        ctermbg=240 ctermfg=12
 highlight PmenuSel     ctermbg=0   ctermfg=3
 highlight SpellBad     ctermbg=0   ctermfg=1
@@ -127,6 +124,7 @@ nnoremap <C-l> <C-w>l
 
 nnoremap <leader><leader> <c-^>
 
+command! -bang W w<bang>
 
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
@@ -328,6 +326,5 @@ let NERDTreeMapJumpFirstChild = 'gK'
 
 let g:Powerline_symbols = 'fancy'
 let g:Powerline_cache_enabled = 1
-let g:Powerline_colorscheme = 'badwolf'
 
 
