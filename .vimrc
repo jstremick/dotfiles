@@ -23,7 +23,7 @@ set ttimeout
 set ttimeoutlen=10              " decrease timeout for faster insert with 'O'
 set vb                            " enable visual bell (disable audio bell)
 set ruler                         " show row and column in footer
-set scrolloff=2                   " minimum lines above/below cursor
+set scrolloff=4                   " minimum lines above/below cursor
 set laststatus=2                  " always show status bar
 set list listchars=tab:»·,trail:· " show extra space characters
 set nofoldenable                  " disable code folding
@@ -33,6 +33,8 @@ set wildmode=list:longest,full
 set nobackup
 set nowb
 set noswapfile
+set sidescroll=1
+set sidescrolloff=10
 
 set undodir=~/.vim/tmp/undo/     " undo files
 set backupdir=~/.vim/tmp/backup/ " backups
@@ -57,21 +59,17 @@ set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
 set wildignore+=*.spl                            " compiled spelling word lists
 set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
-
 set wildignore+=*.luac                           " Lua byte code
-
 set wildignore+=migrations                       " Django migrations
 set wildignore+=*.pyc                            " Python byte code
-
 set wildignore+=*.orig                           " Merge resolution files
 
-" put useful info in status bar
-"set statusline=%F%m%r%h%w\ %{fugitive#statusline()}\ [%l,%c]\ [%L,%p%%]
+" powerline
 set rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim
 
 " set dark background and color scheme
 set background=dark
-colorscheme desert
+colorscheme ir_black
 
 " set up some custom colors
 highlight clear SignColumn
@@ -104,6 +102,11 @@ inoremap <down> <nop>
 inoremap <left> <nop>
 inoremap <right> <nop>
 
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
+
 inoremap jj <ESC>
 
 " set leader key to comma
@@ -121,7 +124,6 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-inoremap jj <ESC>
 
 nnoremap <leader><leader> <c-^>
 
@@ -144,6 +146,18 @@ imap <F1> <C-o>:echo<CR>
 vnoremap . :norm.<cr>
 
 
+" }}}
+" Visual Mode */# from Scrooloose {{{
+
+function! s:VSetSearch()
+  let temp = @@
+  norm! gvy
+  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+  let @@ = temp
+endfunction
+
+vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
+vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 
 " die hash rockets, die!
 vnoremap <leader>h :s/:\(\w*\) *=>/\1:/g<cr>
@@ -165,6 +179,8 @@ let g:gist_open_browser_after_post = 1
 nmap [q :cprevious<cr>
 nmap ]q :cnext<cr>
 
+nmap <leader>c <Plug>CommentaryLine
+xmap <leader>c <Plug>Commentary
 
 " clear the command line and search highlighting
 nnoremap <leader><space> :noh<cr>
@@ -261,3 +277,57 @@ endfunction
 " run test runner
 map <leader>t :call RunTestFile()<cr>
 map <leader>T :call RunNearestTest()<cr>
+
+" }}}
+" Fugitive {{{
+
+nnoremap <leader>gd :Gdiff<cr>
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gw :Gwrite<cr>
+nnoremap <leader>ga :Gadd<cr>
+nnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>gco :Gcheckout<cr>
+nnoremap <leader>gci :Gcommit<cr>
+nnoremap <leader>gm :Gmove<cr>
+nnoremap <leader>gr :Gremove<cr>
+nnoremap <leader>gl :Shell git gl -18<cr>:wincmd \|<cr>
+
+augroup ft_fugitive
+    au!
+
+    au BufNewFile,BufRead .git/index setlocal nolist
+augroup END
+
+" }}}
+" NERD Tree {{{
+
+noremap  <F2> :NERDTreeToggle<cr>
+inoremap <F2> <esc>:NERDTreeToggle<cr>
+
+augroup ps_nerdtree
+    au!
+
+    au Filetype nerdtree setlocal nolist
+    " au Filetype nerdtree nnoremap <buffer> K :q<cr>
+augroup END
+
+let NERDTreeHighlightCursorline = 1
+let NERDTreeIgnore = ['.vim$', '\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index',
+                    \ 'xapian_index', '.*.pid', 'monitor.py', '.*-fixtures-.*.json',
+                    \ '.*\.o$', 'db.db', 'tags.bak', '.*\.pdf$', '.*\.mid$',
+                    \ '.*\.midi$']
+
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+let NERDChristmasTree = 1
+let NERDTreeChDirMode = 2
+let NERDTreeMapJumpFirstChild = 'gK'
+
+" }}}
+" Powerline {{{
+
+let g:Powerline_symbols = 'fancy'
+let g:Powerline_cache_enabled = 1
+let g:Powerline_colorscheme = 'badwolf'
+
+
