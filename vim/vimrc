@@ -110,7 +110,7 @@ nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 nnoremap <leader>n :NERDTreeToggle<cr>
 
 
-nnoremap <leader>w <C-w>v
+nnoremap <leader>w <C-w>v<cr>
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
@@ -156,10 +156,8 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 vnoremap <leader>h :s/:\(\w*\) *=>/\1:/g<cr>
 
 " delete all trailing whitespace in current file
-map <leader>w :%s/\s\+$//gce \| w<cr>
+map <leader>tw :%s/\s\+$//gce \| w<cr>
 
-" delete all trailing whitespace for each file in repo
-map <leader>W :args `git grep -lI .` \| argdo %s/\s\+$//gce \| w<cr>
 
 " map markdown preview
 map <leader>m :!open -a Marked %<cr><cr>
