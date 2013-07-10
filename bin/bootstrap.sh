@@ -9,13 +9,13 @@ function ensure_link {
   }
 
 
-  ensure_link "lib/dotfiles/ackrc"               ".ackrc"
-  ensure_link "lib/dotfiles/gemrc"               ".gemrc"
-  ensure_link "lib/dotfiles/gitconfig"           ".gitconfig"
-  ensure_link "lib/dotfiles/gitignore"           ".gitignore"
-  ensure_link "lib/dotfiles/gitignore_global"    ".gitignore_global"
-  ensure_link "lib/dotfiles/tmux.conf"           ".tmux.conf"
-  ensure_link "lib/dotfiles/vim"                 ".vim"
-  ensure_link "lib/dotfiles/vim/vimrc"           ".vimrc"
+  ensure_link "dotfiles/ackrc"               ".ackrc"
+  ensure_link "dotfiles/gemrc"               ".gemrc"
+  ensure_link "dotfiles/gitconfig"           ".gitconfig"
+  ensure_link "dotfiles/gitignore"           ".gitignore"
+  ensure_link "dotfiles/gitignore_global"    ".gitignore_global"
+  ensure_link "dotfiles/tmux.conf"           ".tmux.conf"
+  ensure_link "dotfiles/vim"                 ".vim"
+  ensure_link "dotfiles/vim/vimrc"           ".vimrc"
 
   echo completed

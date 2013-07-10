@@ -25,7 +25,6 @@ set vb                            " enable visual bell (disable audio bell)
 set ruler                         " show row and column in footer
 set scrolloff=4                   " minimum lines above/below cursor
 set laststatus=2                  " always show status bar
-set list listchars=tab:»·,trail:· " show extra space characters
 set nofoldenable                  " disable code folding
 set clipboard=unnamed             " use the system clipboard
 set wildmenu                      " enable bash style tab completion
@@ -36,14 +35,10 @@ set noswapfile
 set sidescroll=1
 set sidescrolloff=10
 
-set undodir=~/.vim/tmp/undo/     " undo files
 set backupdir=~/.vim/tmp/backup/ " backups
 set directory=~/.vim/tmp/swap/   " swap files
 
 " Make those folders automatically if they don't already exist.
-if !isdirectory(expand(&undodir))
-  call mkdir(expand(&undodir), "p")
-endif
 if !isdirectory(expand(&backupdir))
   call mkdir(expand(&backupdir), "p")
 endif
@@ -327,4 +322,17 @@ let NERDTreeMapJumpFirstChild = 'gK'
 let g:Powerline_symbols = 'fancy'
 let g:Powerline_cache_enabled = 1
 
+func Backspace()
+  if col('.') == 1
+    if line('.')  != 1
+      return  "\<ESC>kA\<Del>"
+    else
+      return ""
+    endif
+  else
+    return "\<Left>\<Del>"
+  endif
+endfunc
+
+inoremap <BS> <c-r>=Backspace()<CR>
 
