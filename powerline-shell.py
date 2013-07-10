@@ -104,7 +104,7 @@ if __name__ == "__main__":
             help='The characters used to make separators between segments',
             choices=['patched', 'compatible', 'flat'])
     arg_parser.add_argument('--shell', action='store', default='bash',
-            help='Set this to your shell type', choices=['bash', 'zsh'])
+            help='Set this to your shell type', choices=['bash', 'zsh', 'bare'])
     arg_parser.add_argument('prev_error', nargs='?', type=int, default=0,
             help='Error code returned by the last command')
     args = arg_parser.parse_args()
@@ -113,7 +113,7 @@ if __name__ == "__main__":
 
 
 class Color:
-    USERNAME_FG = 4
+    USERNAME_FG = 40
     USERNAME_BG = 234
 
     HOSTNAME_FG = 250
@@ -126,12 +126,12 @@ class Color:
 
     REPO_CLEAN_BG = 148  # a light green color
     REPO_CLEAN_FG = 0  # black
-    REPO_DIRTY_BG = 161  # pink/red
+    REPO_DIRTY_BG = 166  # pink/red
     REPO_DIRTY_FG = 15  # white
 
     CMD_PASSED_BG = 236
     CMD_PASSED_FG = 15
-    CMD_FAILED_BG = 161
+    CMD_FAILED_BG = 166
     CMD_FAILED_FG = 15
 
     SVN_CHANGES_BG = 148
@@ -141,24 +141,31 @@ class Color:
     VIRTUAL_ENV_FG = 00
 
 
+
 def add_username_segment():
-    user_prompts = {
-        'bash': ' \\u',
-        'zsh': ' %n'
-    }
-    powerline.append(user_prompts[powerline.args.shell], Color.USERNAME_FG,
-            Color.USERNAME_BG)
+    if powerline.args.shell == 'bash':
+        user_prompt = ' \\u'
+    elif powerline.args.shell == 'zsh':
+        user_prompt = ' %n'
+    else:
+        import os
+        user_prompt = ' %s' % os.getenv('USER')
+
+    powerline.append(user_prompt, Color.USERNAME_FG, Color.USERNAME_BG)
 
 add_username_segment()
 
 
 def add_hostname_segment():
-    host_prompts = {
-        'bash': ' \\h',
-        'zsh': ' %m'
-    }
-    powerline.append(host_prompts[powerline.args.shell], Color.HOSTNAME_FG,
-            Color.HOSTNAME_BG)
+    if powerline.args.shell == 'bash':
+        host_prompt = ' \\h'
+    elif powerline.args.shell == 'zsh':
+        host_prompt = ' %m'
+    else:
+        import socket
+        host_prompt = ' %s' % socket.gethostname().split('.')[0]
+
+    powerline.append(host_prompt, Color.HOSTNAME_FG, Color.HOSTNAME_BG)
 
 add_hostname_segment()
 
@@ -274,6 +281,21 @@ except OSError:
     pass
 except subprocess.CalledProcessError:
     pass
+
+
+import os
+import re
+import subprocess
+
+def add_jobs_segment():
+    ppid = os.getppid()
+    output = subprocess.Popen(['ps', '-a', '-o', 'ppid'], stdout=subprocess.PIPE).communicate()[0]
+    num_jobs = len(re.findall(str(ppid), output)) - 1
+
+    if num_jobs > 0:
+        powerline.append(' %d ' % num_jobs, Color.JOBS_FG, Color.JOBS_BG)
+
+add_jobs_segment()
 
 
 def add_root_indicator_segment():
