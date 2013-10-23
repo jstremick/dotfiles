@@ -34,6 +34,7 @@ set nowb
 set noswapfile
 set sidescroll=1
 set sidescrolloff=10
+set backspace=indent,eol,start
 
 set backupdir=~/.vim/tmp/backup/ " backups
 set directory=~/.vim/tmp/swap/   " swap files
@@ -79,11 +80,6 @@ highlight Pmenu        ctermbg=240 ctermfg=12
 highlight PmenuSel     ctermbg=0   ctermfg=3
 highlight SpellBad     ctermbg=0   ctermfg=1
 
-" highlight the status bar when in insert mode
-if version >= 700
-  au InsertEnter * hi StatusLine ctermfg=235 ctermbg=2
-  au InsertLeave * hi StatusLine ctermbg=240 ctermfg=12
-endif
 
 nnoremap <up> <nop>
 nnoremap <down> <nop>
@@ -157,10 +153,6 @@ vnoremap <leader>h :s/:\(\w*\) *=>/\1:/g<cr>
 
 " delete all trailing whitespace in current file
 map <leader>tw :%s/\s\+$//gce \| w<cr>
-
-
-" map markdown preview
-map <leader>m :!open -a Marked %<cr><cr>
 
 
 " open gist after it's been created
@@ -277,8 +269,8 @@ augroup END
 " }}}
 " NERD Tree {{{
 
-noremap  <F2> :NERDTreeToggle<cr>
-inoremap <F2> <esc>:NERDTreeToggle<cr>
+"noremap  <F2> :NERDTreeToggle<cr>
+"inoremap <F2> <esc>:NERDTreeToggle<cr>
 
 augroup ps_nerdtree
     au!
@@ -317,5 +309,12 @@ func Backspace()
   endif
 endfunc
 
-inoremap <BS> <c-r>=Backspace()<CR>
+"inoremap <BS> <c-r>=Backspace()<CR>
 
+nmap <buffer> <leader>r <Plug>(xmpfilter-run)
+xmap <buffer> <leader>r <Plug>(xmpfilter-run)
+imap <buffer> <leader>r <Plug>(xmpfilter-run)
+
+nmap <buffer> <leader>m <Plug>(xmpfilter-mark)
+xmap <buffer> <leader>m <Plug>(xmpfilter-mark)
+imap <buffer> <leader>m <Plug>(xmpfilter-mark)
