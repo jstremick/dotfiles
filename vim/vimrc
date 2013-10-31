@@ -103,7 +103,6 @@ let mapleader = ","
 nnoremap <leader>a :Ack
 nnoremap <leader>v V`]
 nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
-nnoremap <leader>n :NERDTreeToggle<cr>
 
 
 nnoremap <leader>w <C-w>v<cr>
@@ -183,17 +182,6 @@ autocmd BufReadPost *
   \ endif
 
 
-" rename current file, via Gary Bernhardt
-function! RenameFile()
-  let old_name = expand('%')
-  let new_name = input('New file name: ', expand('%'))
-  if new_name != '' && new_name != old_name
-    exec ':saveas ' . new_name
-    exec ':silent !rm ' . old_name
-    redraw!
-  endif
-endfunction
-map <leader>n :call RenameFile()<cr>
 
 " Run specs with ',t' via Gary Bernhardt
 function! RunTests(filename)
@@ -269,8 +257,7 @@ augroup END
 " }}}
 " NERD Tree {{{
 
-"noremap  <F2> :NERDTreeToggle<cr>
-"inoremap <F2> <esc>:NERDTreeToggle<cr>
+nnoremap <leader>n :NERDTreeToggle<cr>
 
 augroup ps_nerdtree
     au!
