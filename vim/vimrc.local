@@ -1,0 +1,231 @@
+" .vimrc
+
+
+" Disambiguate ,a & ,t from the Align plugin, making them fast again.
+"
+" This section is here to prevent AlignMaps from adding a bunch of mappings
+" that interfere with the very-common ,a and ,t mappings. This will get run
+" at every startup to remove the AlignMaps for the *next* vim startup.
+"
+" If you do want the AlignMaps mappings, remove this section, remove
+" ~/.vim/bundle/Align, and re-run rake in maximum-awesome.
+function! s:RemoveConflictingAlignMaps()
+  if exists("g:loaded_AlignMapsPlugin")
+    AlignMapsClean
+  endif
+endfunction
+command! -nargs=0 RemoveConflictingAlignMaps call s:RemoveConflictingAlignMaps()
+silent! autocmd VimEnter * RemoveConflictingAlignMaps
+
+
+"set wildmenu                      " enable bash style tab completion
+"set wildmode=list:longest,full
+set cursorline                    " highlight current line
+set expandtab                     " use spaces, not tab characters
+set hlsearch                      " highlight all search matches
+set nofoldenable                  " disable code folding
+set nowritebackup
+set noswapfile
+set showmatch                     " show bracket matches
+set ts=2                          " set indent to 2 spaces
+set ttimeout
+set ttimeoutlen=10                " decrease timeout for faster insert with 'O'
+set vb                            " enable visual bell (disable audio bell)
+set whichwrap+=<,>,h,l,[,]        " Wrap arrow keys between lines
+
+set backupdir=~/.vim/tmp/backup/  " backups
+set directory=~/.vim/tmp/swap/    " swap files
+
+" Make those folders automatically if they don't already exist.
+if !isdirectory(expand('~/.vim/tmp/'))
+  call mkdir(expand('~/.vim/tmp/'), "p")
+endif
+if !isdirectory(expand(&backupdir))
+  call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&directory))
+  call mkdir(expand(&directory), "p")
+endif
+
+
+set wildignore+=.hg,.git,.svn                    " Version control
+set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*.spl                            " compiled spelling word lists
+set wildignore+=*.sw?                            " Vim swap files
+set wildignore+=*.DS_Store                       " OSX bullshit
+set wildignore+=*.luac                           " Lua byte code
+set wildignore+=migrations                       " Django migrations
+set wildignore+=*.pyc                            " Python byte code
+set wildignore+=*.orig                           " Merge resolution files
+
+" powerline
+set rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim
+
+" set dark background and color scheme
+colorscheme molokai
+set background=dark
+let g:rehash256 = 1
+let g:molokai_original = 1
+
+" set up some custom colors
+highlight clear SignColumn
+highlight VertSplit    ctermbg=236
+highlight ColorColumn  ctermbg=237
+highlight CursorLine   ctermbg=236
+highlight IncSearch    ctermbg=0   ctermfg=3
+highlight Search       ctermbg=0   ctermfg=9
+highlight Pmenu        ctermbg=240 ctermfg=12
+highlight PmenuSel     ctermbg=0   ctermfg=3
+highlight SpellBad     ctermbg=0   ctermfg=1
+
+
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
+
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
+
+inoremap jj <ESC>
+
+" set leader key to comma
+let mapleader = ","
+
+nnoremap <leader>v V`]
+nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
+
+
+nnoremap <leader>w <C-w>v<cr>
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+
+nnoremap <leader><leader> <c-^>
+
+command! -bang W w<bang>
+
+" Switch CWD to the directory of the open buffer
+map <leader>cd :cd %:p:h<cr>:pwd<cr>
+
+
+" map . in visual mode
+vnoremap . :norm.<cr>
+
+
+" }}}
+" Visual Mode */# from Scrooloose {{{
+
+function! s:VSetSearch()
+  let temp = @@
+  norm! gvy
+  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+  let @@ = temp
+endfunction
+
+vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
+vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
+
+" delete all trailing whitespace in current file
+nmap <leader>tw :call whitespace#strip_trailing()<CR>
+
+
+" open gist after it's been created
+let g:gist_open_browser_after_post = 1
+
+" shortcuts for going next/previous in quickfix (for git log spelunking)
+nmap [q :cprevious<cr>
+nmap ]q :cnext<cr>
+
+"nmap <leader>c <Plug>CommentaryLine
+"xmap <leader>c <Plug>Commentary
+
+" clear the command line and search highlighting
+nnoremap <leader><space> :noh<cr>
+
+" jump to last position in file
+autocmd BufReadPost *
+  \ if line("'\"") > 0 && line("'\"") <= line("$") |
+  \   exe "normal g`\"" |
+  \ endif
+
+
+" }}}
+" Fugitive {{{
+
+nnoremap <leader>gd :Gdiff<cr>
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gw :Gwrite<cr>
+nnoremap <leader>ga :Gadd<cr>
+nnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>gco :Gcheckout<cr>
+nnoremap <leader>gci :Gcommit<cr>
+nnoremap <leader>gm :Gmove<cr>
+nnoremap <leader>gr :Gremove<cr>
+nnoremap <leader>gl :Shell git gl -18<cr>:wincmd \|<cr>
+
+augroup ft_fugitive
+    au!
+
+    au BufNewFile,BufRead .git/index setlocal nolist
+augroup END
+
+" }}}
+" NERD Tree {{{
+
+augroup ps_nerdtree
+    au!
+
+    au Filetype nerdtree setlocal nolist
+    " au Filetype nerdtree nnoremap <buffer> K :q<cr>
+augroup END
+
+let NERDTreeHighlightCursorline = 1
+let NERDTreeIgnore = ['.vim$', '\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index',
+                    \ 'xapian_index', '.*.pid', 'monitor.py', '.*-fixtures-.*.json',
+                    \ '.*\.o$', 'db.db', 'tags.bak', '.*\.pdf$', '.*\.mid$',
+                    \ '.*\.midi$']
+
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+let NERDChristmasTree = 1
+let NERDTreeChDirMode = 2
+let NERDTreeMapJumpFirstChild = 'gK'
+
+" }}}
+" Powerline {{{
+
+let g:Powerline_symbols = 'fancy'
+let g:Powerline_cache_enabled = 1
+
+func Backspace()
+  if col('.') == 1
+    if line('.')  != 1
+      return  "\<ESC>kA\<Del>"
+    else
+      return ""
+    endif
+  else
+    return "\<Left>\<Del>"
+  endif
+endfunc
+
+"inoremap <BS> <c-r>=Backspace()<CR>
+
+nmap <buffer> <leader>r <Plug>(xmpfilter-run)
+xmap <buffer> <leader>r <Plug>(xmpfilter-run)
+imap <buffer> <leader>r <Plug>(xmpfilter-run)
+
+nmap <buffer> <leader>m <Plug>(xmpfilter-mark)
+xmap <buffer> <leader>m <Plug>(xmpfilter-mark)
+imap <buffer> <leader>m <Plug>(xmpfilter-mark)

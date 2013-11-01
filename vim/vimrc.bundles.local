@@ -1,0 +1,5 @@
+
+Bundle 'tomasr/molokai'
+Bundle 'puppetlabs/puppet-syntax-vim'
+Bundle 'rodjek/vim-puppet'
+
