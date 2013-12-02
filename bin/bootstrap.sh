@@ -17,8 +17,6 @@ if [ $(uname) = 'Darwin'  ] ; then
 
   git clone https://github.com/square/maximum-awesome.git $HOME/maximum-awesome
   cd $HOME/maximum-awesome && rake
-  ensure_link "dotfiles/vim/vimrc.bundle.local" ".vimrc.bundle.local"
-  ensure_link "dotfiles/vim/vimrc.local"        ".vimrc.local"
   ensure_link "dotfiles/powerline-shell.py"     "powerline-shell.py"
 
 else
@@ -27,6 +25,9 @@ else
   chmod a+x install.sh && ./install.sh
 
 fi
+
+ensure_link "dotfiles/vim/vimrc.bundle.local" ".vimrc.bundle.local"
+ensure_link "dotfiles/vim/vimrc.local"        ".vimrc.local"
 
 
 echo completed.
