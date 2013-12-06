@@ -64,7 +64,6 @@ set wildignore+=*.orig                           " Merge resolution files
 " powerline
 set rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim
 
-highlight
 " set dark background and color scheme
 colorscheme molokai
 set background=dark
