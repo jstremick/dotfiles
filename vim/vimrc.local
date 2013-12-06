@@ -17,9 +17,10 @@ endfunction
 command! -nargs=0 RemoveConflictingAlignMaps call s:RemoveConflictingAlignMaps()
 silent! autocmd VimEnter * RemoveConflictingAlignMaps
 
+let g:SuperTabDefaultCompletionType = "context"
 
-"set wildmenu                      " enable bash style tab completion
-"set wildmode=list:longest,full
+set wildmenu                      " enable bash style tab completion
+set wildmode=list:longest,full
 set cursorline                    " highlight current line
 set expandtab                     " use spaces, not tab characters
 set hlsearch                      " highlight all search matches
@@ -63,6 +64,7 @@ set wildignore+=*.orig                           " Merge resolution files
 " powerline
 set rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim
 
+highlight
 " set dark background and color scheme
 colorscheme molokai
 set background=dark
@@ -76,9 +78,6 @@ highlight ColorColumn  ctermbg=237
 highlight CursorLine   ctermbg=236
 highlight IncSearch    ctermbg=0   ctermfg=3
 highlight Search       ctermbg=0   ctermfg=9
-highlight Pmenu        ctermbg=240 ctermfg=12
-highlight PmenuSel     ctermbg=0   ctermfg=3
-highlight SpellBad     ctermbg=0   ctermfg=1
 
 
 nnoremap <up> <nop>
@@ -103,6 +102,8 @@ let mapleader = ","
 nnoremap <leader>v V`]
 nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 
+nnoremap <space> <C-d>
+nnoremap <S-space> <C-u>
 
 nnoremap <leader>w <C-w>v<cr>
 nnoremap <C-h> <C-w>h

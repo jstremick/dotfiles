@@ -13,6 +13,9 @@ ensure_link "dotfiles/gitconfig"           ".gitconfig"
 ensure_link "dotfiles/gitignore"           ".gitignore"
 ensure_link "dotfiles/gitignore_global"    ".gitignore_global"
 
+ensure_link "dotfiles/vim/vimrc.bundle.local" ".vimrc.bundle.local"
+ensure_link "dotfiles/vim/vimrc.local"        ".vimrc.local"
+
 if [ $(uname) = 'Darwin'  ] ; then
 
   git clone https://github.com/square/maximum-awesome.git $HOME/maximum-awesome
@@ -26,8 +29,6 @@ else
 
 fi
 
-ensure_link "dotfiles/vim/vimrc.bundle.local" ".vimrc.bundle.local"
-ensure_link "dotfiles/vim/vimrc.local"        ".vimrc.local"
 
 
 echo completed.

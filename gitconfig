@@ -1,12 +1,15 @@
 [core]
   pager = less -FRSX
   whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
-  editor = vim -f
+  editor = vim -pc ':normal gg'
   autocrlf = input
   excludesfile = /Users/jstremick/.gitignore_global
 [user]
   name = James Stremick
   email = james.stremick@vocalocity.com
+[branch]
+  # automatically link new branch to start-point branch (upstream)
+  autosetupmerge      = true
 [credential]
   helper = osxkeychain
 [push]
@@ -46,3 +49,6 @@
   st = status
   w   = whatchanged --decorate
   wp  = whatchanged --decorate -p
+  oldest-ancestor = !zsh -c 'diff --old-line-format='' --new-line-format='' <(git rev-list --first-parent "${1:-master}") <(git rev-list --first-parent "${2:-HEAD}") | head -1' -
+  branchdiff = !sh -c \"git diff `git oldest-ancestor`..\"
+  branchlog = !sh -c \"git log `git oldest-ancestor`..\"
