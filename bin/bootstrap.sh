@@ -13,7 +13,7 @@ ensure_link "dotfiles/gitconfig"           ".gitconfig"
 ensure_link "dotfiles/gitignore"           ".gitignore"
 ensure_link "dotfiles/gitignore_global"    ".gitignore_global"
 
-ensure_link "dotfiles/vim/vimrc.bundle.local" ".vimrc.bundle.local"
+ensure_link "dotfiles/vim/vimrc.bundles.local" ".vimrc.bundles.local"
 ensure_link "dotfiles/vim/vimrc.local"        ".vimrc.local"
 
 if [ $(uname) = 'Darwin'  ] ; then

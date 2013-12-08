@@ -5,4 +5,5 @@ Bundle 'rodjek/vim-puppet'
 Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'ervandew/supertab'
 Bundle 'godlygeek/tabular'
+Bundle 'benmills/vimux'
 
