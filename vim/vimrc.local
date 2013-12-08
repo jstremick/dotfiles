@@ -1,6 +1,6 @@
 " .vimrc
 
-let g:nerdtree_tabs_open_on_console_starup=0
+let g:nerdtree_tabs_open_on_console_startup=0
 
 " Disambiguate ,a & ,t from the Align plugin, making them fast again.
 "
