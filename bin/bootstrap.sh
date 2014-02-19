@@ -23,6 +23,7 @@ ensure_link "dotfiles/gemrc"               ".gemrc"
 ensure_link "dotfiles/gitconfig"           ".gitconfig"
 ensure_link "dotfiles/gitignore"           ".gitignore"
 ensure_link "dotfiles/gitignore_global"    ".gitignore_global"
+ensure_link "dotfiles/tmux.conf"           ".tmux.conf"
 
 ensure_link "dotfiles/vim/vimrc.bundles.local" ".vimrc.bundles.local"
 ensure_link "dotfiles/vim/vimrc.local"         ".vimrc.local"
